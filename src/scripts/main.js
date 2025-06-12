@@ -78,3 +78,49 @@ document.addEventListener('keydown', (e) => {
     render();
   }
 });
+
+// Touch controls for mobile screen
+let touchStartX = 0;
+let touchStartY = 0;
+
+document.addEventListener('touchstart', (e) => {
+  const touch = e.changedTouches[0];
+
+  touchStartX = touch.screenX;
+  touchStartY = touch.screenY;
+});
+
+document.addEventListener('touchend', (e) => {
+  const touch = e.changedTouches[0];
+  const dx = touch.screenX - touchStartX;
+  const dy = touch.screenY - touchStartY;
+
+  const absDx = Math.abs(dx);
+  const absDy = Math.abs(dy);
+
+  if (absDx < 30 && absDy < 30) {
+    return;
+  }
+
+  const gameStatus = game.getStatus();
+
+  if (gameStatus !== 'playing') {
+    return;
+  }
+
+  if (absDx > absDy) {
+    if (dx > 0) {
+      game.moveRight();
+    } else {
+      game.moveLeft();
+    }
+  } else {
+    if (dy > 0) {
+      game.moveDown();
+    } else {
+      game.moveUp();
+    }
+  }
+
+  render();
+});
