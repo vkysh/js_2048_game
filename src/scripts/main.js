@@ -38,14 +38,20 @@ function render() {
 
   startButton.className =
     gameStatus === 'idle' ? 'button start' : 'button restart';
+
+  if (gameStatus === 'win' || gameStatus === 'lose') {
+    enableScroll();
+  }
 }
 
 startButton.addEventListener('click', () => {
   if (game.getStatus() === 'idle') {
     game.start();
+    disableScroll();
   } else {
     game.restart();
     game.start();
+    disableScroll();
   }
 
   render();
@@ -132,3 +138,13 @@ document.addEventListener('touchend', (e) => {
 
   render();
 });
+
+function disableScroll() {
+  document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
+}
+
+function enableScroll() {
+  document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
+}
