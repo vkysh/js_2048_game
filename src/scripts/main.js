@@ -83,12 +83,20 @@ document.addEventListener('keydown', (e) => {
 let touchStartX = 0;
 let touchStartY = 0;
 
-document.addEventListener('touchstart', (e) => {
-  const touch = e.changedTouches[0];
+document.addEventListener(
+  'touchstart',
+  (e) => {
+    const touch = e.changedTouches[0];
 
-  touchStartX = touch.screenX;
-  touchStartY = touch.screenY;
-});
+    touchStartX = touch.screenX;
+    touchStartY = touch.screenY;
+
+    if (e.target.closest('.field')) {
+      e.preventDefault();
+    }
+  },
+  { passive: false },
+);
 
 document.addEventListener('touchend', (e) => {
   const touch = e.changedTouches[0];
